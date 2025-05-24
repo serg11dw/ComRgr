@@ -98,7 +98,7 @@ extern int yylex();
 %left NOT
 %nonassoc LE '<' '='
 %left '+' '-'
-%left '*'
+%left '*' '/'
 %left ISVOID
 %left '~'
 %left '@'
@@ -126,6 +126,8 @@ class_list :
 class :
   CLASS TYPEID '{' feature_list '}' ';'
   { $$ = class_($2, idtable.add_string("Object"), $4, stringtable.add_string(curr_filename)); }
+| CLASS TYPEID INHERITS TYPEID '{' feature_list '}' ';'
+  { $$ = class_($2, $4, $6, stringtable.add_string(curr_filename)); }
 ;
 
 /* Feature list (may be empty), but no empty features in list */
@@ -197,6 +199,9 @@ expr :
 | IF expr THEN expr ELSE expr FI
   { $$ = cond($2, $4, $6); }
 
+| WHILE expr LOOP expr POOL
+  { $$ = loop($2, $4); }
+
 | '{' expr_list_simicolon '}' /* blocks */
   { $$ = block($2); }
 
@@ -217,6 +222,8 @@ expr :
   { $$ = sub($1, $3); }
 | expr '*' expr
   { $$ = mul($1, $3); }
+| expr '/' expr
+  { $$ = divide($1, $3); }
 | '~' expr
   { $$ = neg($2); }
 | expr '<' expr
