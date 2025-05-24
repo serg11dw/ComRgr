@@ -12,6 +12,60 @@ template <class Elem> class nil_node;
 template <class Elem> class single_list_node;
 template <class Elem> class append_node;
 
+class class__class;
+class method_class;
+class attr_class;
+class formal_class;
+class branch_class;
+class assign_class;
+class static_dispatch_class;
+class dispatch_class;
+class let_class;
+class new__class;
+class object_class;
+class block_class;
+class plus_class;
+class sub_class;
+class mul_class;
+class divide_class;
+class string_const_class;
+class bool_const_class;
+class int_const_class;
+class neg_class;
+class lt_class;
+class eq_class;
+class leq_class;
+class cond_class;
+
+class Visitor {
+public:
+  virtual void visit(class__class &ref) {}
+  virtual void visit(method_class &ref) {}
+  virtual void visit(attr_class &ref) {}
+  virtual void visit(formal_class &ref) {}
+  virtual void visit(branch_class &ref) {}
+  virtual void visit(assign_class &ref) {}
+  virtual void visit(static_dispatch_class &ref) {}
+  virtual void visit(dispatch_class &ref) {}
+  virtual void visit(let_class &ref) {}
+  virtual void visit(new__class &ref) {}
+  virtual void visit(object_class &ref) {}
+  virtual void visit(block_class &ref) {}
+  virtual void visit(plus_class &ref) {}
+  virtual void visit(sub_class &ref) {}
+  virtual void visit(mul_class &ref) {}
+  virtual void visit(divide_class &ref) {}
+  virtual void visit(string_const_class &ref) {}
+  virtual void visit(bool_const_class &ref) {}
+  virtual void visit(int_const_class &ref) {}
+  virtual void visit(neg_class &ref) {}
+  virtual void visit(lt_class &ref) {}
+  virtual void visit(eq_class &ref) {}
+  virtual void visit(leq_class &ref) {}
+  virtual void visit(cond_class &ref) {}
+  virtual ~Visitor() = default;
+};
+
 class tree_node {
 protected:
     // line number when node is created
@@ -23,6 +77,7 @@ public:
     virtual void dump(std::ostream &stream, int n) = 0;
     int get_line_number() {	return line_number; }
     tree_node *set(tree_node *t) { line_number = t->line_number; return this; }
+    virtual void accept(Visitor &v) {}
 };
 
 // Lists of objects

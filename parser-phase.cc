@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <cstdio>
-#include <string>
 #include "cool-tree.h"
 #include "utilities.h"
 #include "cool-parse.h"
@@ -8,9 +7,6 @@
 std::FILE *token_file = stdin;
 extern Classes parse_results;
 extern Program ast_root;
-extern IdTable idtable;
-extern IntTable inttable;
-extern StrTable stringtable;
 
 extern int curr_lineno;
 const char *curr_filename = "<stdin>";
@@ -35,7 +31,6 @@ int main(int argc, char **argv)
             std::cerr << "Error: can not open file " << argv[i] << std::endl;
             std::exit(1);
         }
-        curr_filename = argv[i];
         curr_lineno = 1;
 
         cool_yyparse();
@@ -43,15 +38,14 @@ int main(int argc, char **argv)
             std::cerr << "Error: parse errors\n";
             std::exit(1);
         }
-        std::cout << "AST dump with types from file: " << curr_filename << '\n';
-        ast_root->dump_with_types(std::cerr, 1);
 
-        std::cout << "Symbol tables:\n";
-        std::cout << "# Identifiers:\n";
-        idtable.print();
-        std::cout << "# Strings:\n";
+        ast_root->dump_with_types(std::cerr, 0);
+
+        std::cerr << "\nString Table:\n";
         stringtable.print();
-        std::cout << "# Integers:\n";
+        std::cerr << "\nIdentifier Table:\n";
+        idtable.print();
+        std::cerr << "\nInteger Table:\n";
         inttable.print();
 
         std::fclose(token_file);

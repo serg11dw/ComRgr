@@ -98,7 +98,7 @@ extern int yylex();
 %left NOT
 %nonassoc LE '<' '='
 %left '+' '-'
-%left '*' '/'
+%left '*'
 %left ISVOID
 %left '~'
 %left '@'

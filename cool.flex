@@ -136,13 +136,13 @@ DIGIT           [0-9]
     return ERROR;
 }
 
- /* meet a "\\0" ??? 
+ /* meet a "\\0" ??? */
 <STRING>\\0 {
     yylval.error_msg = "Unterminated string constant";
     BEGIN 0;
     //curr_lineno++;
     return ERROR;
-}*/
+}
 
  /* string ends, we need to deal with some escape characters */
 <STRING>\" {
@@ -192,8 +192,11 @@ DIGIT           [0-9]
         return ERROR;
     }
 
-    /* TODO */
-    cool_yylval.symbol = stringtable.add_string(yytext);
+    /* STRING LIT RULE */
+    yylval.symbol = stringtable.add_string((char*)output.c_str());
+    BEGIN 0;
+    return STR_CONST;
+
     BEGIN 0;
     return STR_CONST;
 
@@ -278,8 +281,7 @@ f(?i:alse) {
 
  /* TYPEID */
 [A-Z][A-Za-z0-9_]* {
-    /* TODO*/
-    cool_yylval.symbol = idtable.add_string(yytext);
+    yylval.symbol = idtable.add_string(yytext);
     return TYPEID;
 }
 
