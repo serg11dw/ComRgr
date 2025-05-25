@@ -1,5 +1,7 @@
-class Main {
-    main(): Int {
-        10
-    };
-};
+class A inherits B {
+
+ };
+
+class A inherits B { };
+class B inherits C { };
+class C inherits A { };
